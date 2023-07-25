@@ -30,29 +30,34 @@ public class BootstrapData implements CommandLineRunner {
         Author eric = new Author();
         eric.setFirstName("Eric");
         eric.setLastName("Evans");
+        Author ericSaved = authorRepository.save(eric);
+
 
         Book ddd = new Book();
         ddd.setTitle("Domain Driven Design");
         ddd.setIsbn("123456");
-
-        Author ericSaved = authorRepository.save(eric);
         Book dddSaved = bookRepository.save(ddd);
 
 
         Author rod = new Author();
-        eric.setFirstName("Rod");
-        eric.setLastName("Johnson");
+        rod.setFirstName("Rod");
+        rod.setLastName("Johnson");
+        Author rodSaved = authorRepository.save(rod);
+
 
         Book noEJB = new Book();
-        ddd.setTitle("J2EE Development without EJB");
-        ddd.setIsbn("547547547");
-
-        Author rodSaved = authorRepository.save(rod);
+        noEJB.setTitle("J2EE Development without EJB");
+        noEJB.setIsbn("547547547");
         Book noEJBSaved = bookRepository.save(noEJB);
 
-        ericSaved.getBooks().add(dddSaved);
-        rodSaved.getBooks().add(noEJBSaved);
 
+        // bunlar hashset oldugundan setbook yapilamiyor
+        // bu yuzden collectiona add olarak ekleniyor
+        ericSaved.getBooks().add(dddSaved);
+        dddSaved.getAuthors().add(ericSaved);
+
+        rodSaved.getBooks().add(noEJBSaved);
+        noEJBSaved.getAuthors().add(rodSaved);
 
         Publisher isler = new Publisher();
         isler.setPublisherName("Isler");
